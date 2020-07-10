@@ -11,9 +11,9 @@ class CreateAccount extends React.Component {
   };
 
   state = {
-    name: "Alex B",
-    email: "test3@gmail.com",
-    password: "test123"
+    name: "",
+    email: "",
+    password: "",
   };
 
   onPressCreate = async () => {
@@ -41,7 +41,7 @@ class CreateAccount extends React.Component {
         <Text style={styles.title}>Email:</Text>
         <TextInput
           style={styles.nameInput}
-          placeHolder="test3@gmail.com"
+          placeHolder=""
           onChangeText={this.onChangeTextEmail}
           value={this.state.email}
         />

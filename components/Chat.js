@@ -14,7 +14,7 @@ class Chat extends React.Component<Props> {
     super(props);
   }
   static navigationOptions = ({ navigation }) => ({
-    title: (navigation.state.params || {}).name || 'Chat!',
+    title: (navigation.state.params || {}).name || 'Group Chat',
   });
 
   state = {
