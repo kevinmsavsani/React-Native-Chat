@@ -1,14 +1,10 @@
-import React from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Button,
-} from "react-native";
+import React, { useState, useContext } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Title } from 'react-native-paper';
+import FormInput from './component/FormInput';
+import FormButton from './component/FormButton';
 import firebaseSvc from "../FirebaseSvc";
 
-import uuid from "uuid";
 
 class Login extends React.Component {
   static navigationOptions = {
@@ -54,59 +50,55 @@ class Login extends React.Component {
 
   render() {
     return (
-      <View>
-        <Text style={styles.title}>Email:</Text>
-        <TextInput
-          style={styles.nameInput}
-          placeHolder=""
-          onChangeText={this.onChangeTextEmail}
-          value={this.state.email}
+    <View style={styles.container}>
+      <Title style={styles.titleText}>Welcome to Group Chat</Title>
+      <FormInput
+        labelName='Email'
+        autoCapitalize='none'
+        onChangeText={this.onChangeTextEmail}
+        value={this.state.email}
+      />
+      <FormInput
+        labelName='Password'
+        secureTextEntry={true}
+        onChangeText={this.onChangeTextPassword}
+        value={this.state.password}
+      />
+      <FormButton
+        title='Login'
+        modeValue='contained'
+        labelStyle={styles.loginButtonLabel}
+        onPress={this.onPressLogin}
+      />
+      <FormButton
+        title='New user? Join here'
+        modeValue='text'
+        uppercase={false}
+        labelStyle={styles.navButtonText}
+        onPress={() => this.props.navigation.navigate("CreateAccount")}
         />
-        <Text style={styles.title}>Password:</Text>
-        <TextInput
-          style={styles.nameInput}
-          onChangeText={this.onChangeTextPassword}
-          value={this.state.password}
-        />
-        <Button
-          title="Login"
-          style={styles.buttonText}
-          onPress={this.onPressLogin}
-        />
-
-        <Button
-          title="Create New Account"
-          style={styles.buttonText}
-          onPress={() => this.props.navigation.navigate("CreateAccount")}
-        />
-      </View>
-      
-    );
-  }
+    </View>
+  );
+}
 }
 
-const offset = 16;
 const styles = StyleSheet.create({
-  title: {
-    marginTop: offset,
-    marginLeft: offset,
-    fontSize: offset,
+  container: {
+    backgroundColor: '#f5f5f5',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  nameInput: {
-    height: offset * 2,
-    margin: offset,
-    paddingHorizontal: offset,
-    borderColor: "#111111",
-    borderWidth: 1,
-    fontSize: offset,
+  titleText: {
+    fontSize: 24,
+    marginBottom: 10
   },
-  buttonText: {
-    margin: offset,
-    marginLeft: offset,
-    fontSize: 42,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+  loginButtonLabel: {
+    fontSize: 22
   },
+  navButtonText: {
+    fontSize: 16
+  }
 });
 
 export default Login;
