@@ -1,8 +1,8 @@
-import React from "react";
-import * as Permissions from "expo-permissions";
-
-import { Constants } from "expo";
-import { StyleSheet, Text, TextInput, View, Button } from "react-native";
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Title, IconButton } from 'react-native-paper';
+import FormInput from './component/FormInput';
+import FormButton from './component/FormButton';
 import firebaseSvc from "../FirebaseSvc";
 
 class CreateAccount extends React.Component {
@@ -37,55 +37,81 @@ class CreateAccount extends React.Component {
 
   render() {
     return (
-      <View>
-        <Text style={styles.title}>Email:</Text>
-        <TextInput
-          style={styles.nameInput}
-          placeHolder=""
-          onChangeText={this.onChangeTextEmail}
-          value={this.state.email}
+    <View style={styles.container}>
+      <Title style={styles.titleText}>Register to Group Chat</Title>
+      <FormInput
+        labelName='Name'
+        onChangeText={this.onChangeTextName}
+        value={this.state.name}
         />
-        <Text style={styles.title}>Password:</Text>
-        <TextInput
-          style={styles.nameInput}
-          onChangeText={this.onChangeTextPassword}
-          value={this.state.password}
+      <FormInput
+        labelName='Email'
+        autoCapitalize='none'
+        onChangeText={this.onChangeTextEmail}
+        value={this.state.email}
         />
-        <Text style={styles.title}>Name:</Text>
-        <TextInput
-          style={styles.nameInput}
-          onChangeText={this.onChangeTextName}
-          value={this.state.name}
+      <FormInput
+        labelName='Password'
+        secureTextEntry={true}
+        onChangeText={this.onChangeTextPassword}
+        value={this.state.password}
         />
-        <Button
-          title="Create Account"
-          style={styles.buttonText}
-          onPress={this.onPressCreate}
+      <FormButton
+        title='Signup'
+        modeValue='contained'
+        labelStyle={styles.loginButtonLabel}
+        onPress={this.onPressCreate}
         />
-      </View>
-    );
-  }
+    </View>
+  );
+}
 }
 
-const offset = 16;
 const styles = StyleSheet.create({
-  title: {
-    marginTop: offset,
-    marginLeft: offset,
-    fontSize: offset,
+  container: {
+    backgroundColor: '#f5f5f5',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  nameInput: {
-    height: offset * 2,
-    margin: offset,
-    paddingHorizontal: offset,
-    borderColor: "#111111",
-    borderWidth: 1,
-    fontSize: offset,
+  titleText: {
+    fontSize: 24,
+    marginBottom: 10
   },
-  buttonText: {
-    marginLeft: offset,
-    fontSize: 42,
+  loginButtonLabel: {
+    fontSize: 22
   },
+  navButtonText: {
+    fontSize: 18
+  },
+  navButton: {
+    marginTop: 10
+  }
 });
+
+//     );
+//   }
+// }
+
+// const offset = 16;
+// const styles = StyleSheet.create({
+//   title: {
+//     marginTop: offset,
+//     marginLeft: offset,
+//     fontSize: offset,
+//   },
+//   nameInput: {
+//     height: offset * 2,
+//     margin: offset,
+//     paddingHorizontal: offset,
+//     borderColor: "#111111",
+//     borderWidth: 1,
+//     fontSize: offset,
+//   },
+//   buttonText: {
+//     marginLeft: offset,
+//     fontSize: 42,
+//   },
+// });
 
 export default CreateAccount;
