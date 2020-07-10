@@ -118,7 +118,7 @@ class FirebaseSvc {
 
   refOn = (callback) => {
     this.ref
-      .limitToLast(20)
+      .limitToLast(50)
       .on("child_added", (snapshot) => callback(this.parse(snapshot)));
   };
 
@@ -142,6 +142,13 @@ class FirebaseSvc {
   refOff() {
     this.ref.off();
   }
+
+  createRoom = (room) => {
+      firebase.database().ref('rooms/' + room.name).set({
+        name: room.name,
+        password: room.password
+      });
+  };
 }
 
 const firebaseSvc = new FirebaseSvc();

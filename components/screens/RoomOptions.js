@@ -60,30 +60,14 @@ class RoomOptions extends React.Component<Props> {
 
   // using Fire.js
   onPressCreateRoom = async () => {
-    console.log("pressing createroom... email:" + this.state.email);
-    const user = {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-    };
-
-    const response = firebaseSvc.createRoom(
-      user,
-      this.createRoomSuccess,
-      this.createRoomFailed
-    );
-  };
-
-  createRoomSuccess = () => {
-    console.log("createroom successful, navigate to chat.");
-    this.props.navigation.navigate("Chat", {
-      name: this.state.name,
-      email: this.state.email,
-    });
-  };
-  createRoomFailed = () => {
-    console.log("createroom failed ***");
-    alert("CreateRoom failure. Please tried again.");
+    console.log(
+        "pressing Add Room... email:" + this.props.navigation.state.params.email
+      );
+  
+      this.props.navigation.navigate("AddRoom", {
+        name: this.props.navigation.state.params.name,
+        email: this.props.navigation.state.params.email,
+      });
   };
 
   render() {

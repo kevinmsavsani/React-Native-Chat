@@ -23,7 +23,6 @@ class CreateAccount extends React.Component {
         name: this.state.name,
         email: this.state.email,
         password: this.state.password,
-        avatar: this.state.avatar,
       };
       await firebaseSvc.createAccount(user);
     } catch ({ message }) {
@@ -88,30 +87,5 @@ const styles = StyleSheet.create({
     marginTop: 10
   }
 });
-
-//     );
-//   }
-// }
-
-// const offset = 16;
-// const styles = StyleSheet.create({
-//   title: {
-//     marginTop: offset,
-//     marginLeft: offset,
-//     fontSize: offset,
-//   },
-//   nameInput: {
-//     height: offset * 2,
-//     margin: offset,
-//     paddingHorizontal: offset,
-//     borderColor: "#111111",
-//     borderWidth: 1,
-//     fontSize: offset,
-//   },
-//   buttonText: {
-//     marginLeft: offset,
-//     fontSize: 42,
-//   },
-// });
 
 export default CreateAccount;
