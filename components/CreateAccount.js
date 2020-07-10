@@ -1,13 +1,10 @@
 import React from "react";
-import { Constants, ImagePicker, Permissions } from "expo";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Button,
-  ImageEditor,
-} from "react-native";
+import * as Permissions from "expo-permissions";
+import * as ImagePicker from "expo-image-picker";
+import ImageEditor from "@react-native-community/image-editor";
+
+import { Constants } from "expo";
+import { StyleSheet, Text, TextInput, View, Button } from "react-native";
 import firebaseSvc from "../FirebaseSvc";
 
 class CreateAccount extends React.Component {
@@ -16,18 +13,20 @@ class CreateAccount extends React.Component {
   };
 
   state = {
-    name: "no name",
+    name: "Alex B",
     email: "test3@gmail.com",
     password: "test123",
     avatar: "",
   };
 
   onPressCreate = async () => {
+    console.log("create account... email:" + this.state.email);
     try {
       const user = {
         name: this.state.name,
         email: this.state.email,
         password: this.state.password,
+        avatar: this.state.avatar,
       };
       await firebaseSvc.createAccount(user);
     } catch ({ message }) {
@@ -46,6 +45,7 @@ class CreateAccount extends React.Component {
     try {
       // only if user allows permission to camera roll
       if (cameraRollPerm === "granted") {
+        console.log("choosing image granted...");
         let pickerResult = await ImagePicker.launchImageLibraryAsync({
           allowsEditing: true,
           aspect: [4, 3],
@@ -57,6 +57,7 @@ class CreateAccount extends React.Component {
         var wantedMaxSize = 150;
         var rawheight = pickerResult.height;
         var rawwidth = pickerResult.width;
+
         var ratio = rawwidth / rawheight;
         var wantedwidth = wantedMaxSize;
         var wantedheight = wantedMaxSize / ratio;
@@ -65,6 +66,7 @@ class CreateAccount extends React.Component {
           wantedwidth = wantedMaxSize * ratio;
           wantedheight = wantedMaxSize;
         }
+        console.log("scale image to x:" + wantedwidth + " y:" + wantedheight);
         let resizedUri = await new Promise((resolve, reject) => {
           ImageEditor.cropImage(
             pickerResult.uri,
@@ -72,15 +74,20 @@ class CreateAccount extends React.Component {
               offset: { x: 0, y: 0 },
               size: { width: pickerResult.width, height: pickerResult.height },
               displaySize: { width: wantedwidth, height: wantedheight },
-              resizeMode: "contain",
+              resizeMode: 'contain',
             },
             (uri) => resolve(uri),
             () => reject()
           );
         });
         let uploadUrl = await firebaseSvc.uploadImage(resizedUri);
-        this.setState({ avatar: uploadUrl });
-        await firebaseSvc.updateAvatar(uploadUrl);
+        //let uploadUrl = await firebaseSvc.uploadImageAsync(resizedUri);
+        await this.setState({ avatar: uploadUrl });
+        console.log(" - await upload successful url:" + uploadUrl);
+        console.log(
+          " - await upload successful avatar state:" + this.state.avatar
+        );
+        await firebaseSvc.updateAvatar(uploadUrl); //might failed
       }
     } catch (err) {
       console.log("onImageUpload error:" + err.message);
@@ -116,7 +123,7 @@ class CreateAccount extends React.Component {
           onPress={this.onPressCreate}
         />
         <Button
-          title="Upload Avatar Image 2"
+          title="Upload Avatar Image"
           style={styles.buttonText}
           onPress={this.onImageUpload}
         />

@@ -1,4 +1,5 @@
 import firebase from "firebase";
+
 class FirebaseSvc {
   constructor() {
     if (!firebase.apps.length) {
@@ -14,7 +15,6 @@ class FirebaseSvc {
       });
     }
   }
-  
   login = async (user, success_callback, failed_callback) => {
     await firebase
       .auth()
@@ -23,21 +23,21 @@ class FirebaseSvc {
   };
 
   createAccount = async (user) => {
-    firebase.auth()
-      .createUserWithEmailAndPassword(user.email, user.password)
+  firebase.auth()
+    .createUserWithEmailAndPassword(user.email, user.password)
+  .then(function() {
+    var userf = firebase.auth().currentUser;
+    userf.updateProfile({ displayName: user.name})
     .then(function() {
-      var userf = firebase.auth().currentUser;
-      userf.updateProfile({ displayName: user.name})
-      .then(function() {
-        alert("User " + user.name + " was created successfully.");
-      }, function(error) {
-        console.warn("Error update displayName.");
-      });
+      alert("User " + user.name + " was created successfully.");
     }, function(error) {
-      console.error("got error:" + error.message);
-      alert("Create account failed.");
+      console.warn("Error update displayName.");
     });
-  }
+  }, function(error) {
+    console.error("got error:" + error.message);
+    alert("Create account failed.");
+  });
+}
 }
 const firebaseSvc = new FirebaseSvc();
 export default firebaseSvc;
