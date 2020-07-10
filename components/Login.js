@@ -1,35 +1,61 @@
-import React from "react";
-import { StyleSheet, Text, TextInput, View, Button } from "react-native";
-// add import
-import firebaseSvc from "../FirebaseSvc";
+import React from 'react';
+import { Constants, ImagePicker, Permissions } from 'expo';
+import {
+  StyleSheet, Text,
+  TextInput,  TouchableOpacity, View,
+  Button, ImageEditor,
+} from 'react-native';
+import firebaseSvc from '../FirebaseSvc';
+import firebase from 'firebase';
+import { auth, initializeApp, storage } from 'firebase';
+import uuid from 'uuid';
 
-export default class Login extends React.Component {
-  // add state to store user input
+class Login extends React.Component {
+  static navigationOptions = {
+    title: 'Scv Chatter',
+  };
+
   state = {
-    email: "test@live.com",
-    password: "123456",
+    name: 'Alex B',
+    email: 'test@live.com',
+    password: '123456',
+    avatar: '',
   };
-  // add login method to handle user press Login button
+
+  // using Fire.js
   onPressLogin = async () => {
+    console.log('pressing login... email:' + this.state.email);
     const user = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-    firebaseSvc.login(user, this.loginSuccess, this.loginFailed);
-  };
-  loginSuccess = () => {
-    console.log("login successful, navigate to chat.");
-    this.props.navigation.navigate("Chat", {
       name: this.state.name,
       email: this.state.email,
+      password: this.state.password,
+      avatar: this.state.avatar,
+    };
+
+    const response = firebaseSvc.login(
+      user,
+      this.loginSuccess,
+      this.loginFailed
+    );
+  };
+
+  loginSuccess = () => {
+    console.log('login successful, navigate to chat.');
+    this.props.navigation.navigate('Chat', {
+      name: this.state.name,
+      email: this.state.email,
+      avatar: this.state.avatar,
     });
   };
   loginFailed = () => {
-    alert("Login failure. Please tried again.");
+    console.log('login failed ***');
+    alert('Login failure. Please tried again.');
   };
-  // methods to handle user input and update the state
-  onChangeTextEmail = (email) => this.setState({ email });
-  onChangeTextPassword = (password) => this.setState({ password });
+
+
+  onChangeTextEmail = email => this.setState({ email });
+  onChangeTextPassword = password => this.setState({ password });
+
 
   render() {
     return (
@@ -37,7 +63,7 @@ export default class Login extends React.Component {
         <Text style={styles.title}>Email:</Text>
         <TextInput
           style={styles.nameInput}
-          placeHolder="test@live.com"
+          placeHolder="test3@gmail.com"
           onChangeText={this.onChangeTextEmail}
           value={this.state.email}
         />
@@ -52,6 +78,7 @@ export default class Login extends React.Component {
           style={styles.buttonText}
           onPress={this.onPressLogin}
         />
+
         <Button
           title="Go to create new account"
           style={styles.buttonText}
@@ -73,7 +100,7 @@ const styles = StyleSheet.create({
     height: offset * 2,
     margin: offset,
     paddingHorizontal: offset,
-    borderColor: "#111111",
+    borderColor: '#111111',
     borderWidth: 1,
     fontSize: offset,
   },
@@ -82,3 +109,5 @@ const styles = StyleSheet.create({
     fontSize: 42,
   },
 });
+
+export default Login;
