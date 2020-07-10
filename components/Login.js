@@ -1,9 +1,8 @@
 import React from 'react';
-import { Constants, ImagePicker, Permissions } from 'expo';
 import {
   StyleSheet, Text,
   TextInput,  TouchableOpacity, View,
-  Button, ImageEditor,
+  Button
 } from 'react-native';
 import firebaseSvc from '../FirebaseSvc';
 import firebase from 'firebase';
@@ -12,14 +11,13 @@ import uuid from 'uuid';
 
 class Login extends React.Component {
   static navigationOptions = {
-    title: 'Scv Chatter',
+    title: 'Group Chat',
   };
 
   state = {
     name: 'Alex B',
     email: 'test@live.com',
     password: '123456',
-    avatar: '',
   };
 
   // using Fire.js
@@ -29,7 +27,6 @@ class Login extends React.Component {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
-      avatar: this.state.avatar,
     };
 
     const response = firebaseSvc.login(
@@ -44,7 +41,6 @@ class Login extends React.Component {
     this.props.navigation.navigate('Chat', {
       name: this.state.name,
       email: this.state.email,
-      avatar: this.state.avatar,
     });
   };
   loginFailed = () => {

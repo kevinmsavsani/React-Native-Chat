@@ -6,7 +6,6 @@ import firebaseSvc from '../FirebaseSvc';
 type Props = {
   name?: string,
   email?: string,
-  avatar?: string,
 };
 
 class Chat extends React.Component<Props> {
@@ -26,7 +25,6 @@ class Chat extends React.Component<Props> {
     return {
       name: this.props.navigation.state.params.name,
       email: this.props.navigation.state.params.email,
-      avatar: this.props.navigation.state.params.avatar,
       id: firebaseSvc.uid,
       _id: firebaseSvc.uid, // need for gifted-chat
     };
