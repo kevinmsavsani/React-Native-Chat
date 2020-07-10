@@ -1,6 +1,7 @@
-import Login from "./components/Login";
-import Chat from "./components/Chat";
-import CreateAccount from "./components/CreateAccount";
+import Login from "./components/screens/Login";
+import Chat from "./components/screens/Chat";
+import CreateAccount from "./components/screens/CreateAccount";
+import RoomOptions from "./components/screens/RoomOptions";
 
 import { createAppContainer } from "react-navigation";
 
@@ -19,6 +20,7 @@ console.warn = (message) => {
 const RootStack = createStackNavigator({
   Login: { screen: Login },
   CreateAccount: { screen: CreateAccount },
+  RoomOptions: { screen: RoomOptions },
   Chat: { screen: Chat },
 });
 

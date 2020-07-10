@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Title, IconButton } from 'react-native-paper';
-import FormInput from './component/FormInput';
-import FormButton from './component/FormButton';
-import firebaseSvc from "../FirebaseSvc";
+import FormInput from '../component/FormInput';
+import FormButton from '../component/FormButton';
+import firebaseSvc from "../../FirebaseSvc";
 
 class CreateAccount extends React.Component {
   static navigationOptions = {
