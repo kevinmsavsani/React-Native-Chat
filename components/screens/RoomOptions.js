@@ -32,42 +32,26 @@ class RoomOptions extends React.Component<Props> {
 
   // using Fire.js
   onPressJoinRoom = async () => {
-    console.log("pressing joinroom... email:" + this.state.email);
-    const user = {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-    };
-
-    const response = firebaseSvc.joinRoom(
-      user,
-      this.joinRoomSuccess,
-      this.joinRoomFailed
+    console.log(
+      "pressing global... email:" + this.props.navigation.state.params.email
     );
-  };
 
-  joinRoomSuccess = () => {
-    console.log("joinroom successful, navigate to chat.");
-    this.props.navigation.navigate("Chat", {
-      name: this.state.name,
-      email: this.state.email,
+    this.props.navigation.navigate("JoinRoom", {
+      name: this.props.navigation.state.params.name,
+      email: this.props.navigation.state.params.email,
     });
-  };
-  joinRoomFailed = () => {
-    console.log("joinroom failed ***");
-    alert("JoinRoom failure. Please tried again.");
   };
 
   // using Fire.js
   onPressCreateRoom = async () => {
     console.log(
-        "pressing Add Room... email:" + this.props.navigation.state.params.email
-      );
-  
-      this.props.navigation.navigate("AddRoom", {
-        name: this.props.navigation.state.params.name,
-        email: this.props.navigation.state.params.email,
-      });
+      "pressing Add Room... email:" + this.props.navigation.state.params.email
+    );
+
+    this.props.navigation.navigate("AddRoom", {
+      name: this.props.navigation.state.params.name,
+      email: this.props.navigation.state.params.email,
+    });
   };
 
   render() {

@@ -3,6 +3,8 @@ import Chat from "./components/screens/Chat";
 import CreateAccount from "./components/screens/CreateAccount";
 import RoomOptions from "./components/screens/RoomOptions";
 import AddRoom from "./components/screens/AddRoom";
+import JoinRoom from "./components/screens/JoinRoom";
+
 import { createAppContainer } from "react-navigation";
 
 import { createStackNavigator } from "react-navigation-stack";
@@ -22,7 +24,8 @@ const RootStack = createStackNavigator({
   CreateAccount: { screen: CreateAccount },
   RoomOptions: { screen: RoomOptions },
   Chat: { screen: Chat },
-  AddRoom: { screen: AddRoom }
+  AddRoom: { screen: AddRoom },
+  JoinRoom: { screen: JoinRoom}
 });
 
 const App = createAppContainer(RootStack);

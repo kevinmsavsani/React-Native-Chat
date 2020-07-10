@@ -144,11 +144,32 @@ class FirebaseSvc {
   }
 
   createRoom = (room) => {
-      firebase.database().ref('rooms/' + room.name).set({
+    firebase
+      .database()
+      .ref("rooms/" + room.name)
+      .set({
         name: room.name,
-        password: room.password
+        password: room.password,
       });
   };
+
+  roomList() {
+    var refs = firebase.database().ref("rooms");
+    var json =[];
+    refs.on(
+      "value",
+      function (snapshot) {
+        snapshot.forEach(function(dinoSnapshot) {
+          let myJson = {"name" : dinoSnapshot.key};
+          json.push(myJson);
+        });
+      },
+      function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+      }
+    );
+    return json;
+  }
 }
 
 const firebaseSvc = new FirebaseSvc();
