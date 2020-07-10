@@ -1,9 +1,5 @@
 import React from "react";
-import {
-    StyleSheet, Text,
-    TextInput, View,
-    Button
-  } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button } from "react-native";
 // add import
 import firebaseSvc from "../FirebaseSvc";
 
@@ -55,6 +51,11 @@ export default class Login extends React.Component {
           title="Login 2"
           style={styles.buttonText}
           onPress={this.onPressLogin}
+        />
+        <Button
+          title="Go to create new account"
+          style={styles.buttonText}
+          onPress={() => this.props.navigation.navigate("CreateAccount")}
         />
       </View>
     );
