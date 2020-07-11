@@ -22,7 +22,7 @@ class JoinRoom extends React.Component {
     password: "",
   };
   static navigationOptions = {
-    title: "Join Room",
+    title: "Group Chat",
   };
 
   constructor() {
@@ -38,10 +38,11 @@ class JoinRoom extends React.Component {
     var n = this.state.name.password.localeCompare(this.state.password);
     console.log(n);
     if (n == 0) {
-      console.log("join successful, navigate to chat.");
-      this.props.navigation.navigate("Chat", {
+      console.log("join successful, navigate to Room Chat." + this.state.name.id);
+      this.props.navigation.navigate("RoomChat", {
         name: this.props.navigation.state.params.name,
         email: this.props.navigation.state.params.email,
+        id: this.state.name.id
       });
     } else {
       console.log("join failed ***");

@@ -10,6 +10,7 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { YellowBox } from "react-native";
 import _ from "lodash";
+import RoomChat from "./components/screens/RoomChat";
 
 YellowBox.ignoreWarnings(["Setting a timer"]);
 const _console = _.clone(console);
@@ -25,7 +26,8 @@ const RootStack = createStackNavigator({
   RoomOptions: { screen: RoomOptions },
   Chat: { screen: Chat },
   AddRoom: { screen: AddRoom },
-  JoinRoom: { screen: JoinRoom}
+  JoinRoom: { screen: JoinRoom},
+  RoomChat: { screen: RoomChat}
 });
 
 const App = createAppContainer(RootStack);

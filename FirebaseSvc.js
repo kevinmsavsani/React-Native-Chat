@@ -100,10 +100,6 @@ class FirebaseSvc {
     return firebase.database().ref("Messages");
   }
 
-  get refs() {
-    return firebase.database().ref("rooms");
-  }
-
   parse = (snapshot) => {
     const { timestamp: numberStamp, text, user } = snapshot.val();
     const { key: id } = snapshot;
@@ -126,6 +122,14 @@ class FirebaseSvc {
       .on("child_added", (snapshot) => callback(this.parse(snapshot)));
   };
 
+  refroomOn = (callback) => {
+    firebase
+      .database()
+      .ref("rooms/" + id + "/Messages")
+      .limitToLast(50)
+      .on("child_added", (snapshot) => callback(this.parse(snapshot)));
+  };
+
   get timestamp() {
     return firebase.database.ServerValue.TIMESTAMP;
   }
@@ -143,26 +147,81 @@ class FirebaseSvc {
     }
   };
 
+  sendRoom = (id, messages) => {
+    var refroom = firebase.database().ref("rooms/" + id + "/Messages");
+    for (let i = 0; i < messages.length; i++) {
+      const { text, user } = messages[i];
+      const message = {
+        text,
+        user,
+        createdAt: this.timestamp,
+      };
+      refroom.push(message);
+    }
+  };
+
   refOff() {
     this.ref.off();
   }
 
+  refroomOff() {
+    this.refroom.off();
+  }
+
   createRoom = (room) => {
-    firebase.database().ref("rooms").push({
+    var current = 0;
+    firebase.database().ref("RoomNumber").on("value", function(snapshot) {
+      current = snapshot.val();
+    });
+    var usersRef = firebase.database().ref("rooms");
+    usersRef.child(current).set({
+      id: current,
       name: room.name,
       password: room.password,
     });
+
+    firebaseSvc.setRoomNumber();
   };
 
   roomList() {
     var refs = firebase.database().ref("rooms");
-    var i = 0;
     var json = [];
     refs.orderByChild("name").on("child_added", function (snapshot) {
-      json.push({id: i, name: snapshot.val().name,password: snapshot.val().password});
-      i++;
+      json.push({
+        id: snapshot.key,
+        name: snapshot.val().name,
+        password: snapshot.val().password,
+      });
     });
     return json;
+  }
+
+  getRoomNumber(callback) {
+    var ref = firebase.database().ref("RoomNumber");
+
+    ref.on(
+      "value",
+      function (snapshot) {
+        var peep = snapshot;
+        // error will be null, and peep will contain the snapshot
+        callback(null, peep);
+      },
+      function (error) {
+        // error wil be an Object
+        callback(error);
+      }
+    );
+    // firebaseSvc.getRoomNumber(function (err, result) {
+      //   console.log(result);
+      // });
+      // firebaseSvc.setRoomNumber();
+  }
+
+  setRoomNumber() {
+    var ref = firebase.database().ref("RoomNumber");
+    ref.transaction(function (current_value) {
+      return (current_value || 0) + 1;
+    });
   }
 }
 

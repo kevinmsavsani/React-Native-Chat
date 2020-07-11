@@ -44,7 +44,6 @@ class RoomOptions extends React.Component {
     console.log(
       "pressing Add Room... email:" + this.props.navigation.state.params.email
     );
-
     this.props.navigation.navigate("AddRoom", {
       name: this.props.navigation.state.params.name,
       email: this.props.navigation.state.params.email,
