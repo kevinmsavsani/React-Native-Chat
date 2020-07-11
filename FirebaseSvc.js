@@ -147,8 +147,8 @@ class FirebaseSvc {
     }
   };
 
-  sendRoom = (id, messages) => {
-    var refroom = firebase.database().ref("rooms/" + id + "/Messages");
+  sendRoom = (messages) => {
+    var refroom = firebase.database().ref("rooms/15/Messages");
     for (let i = 0; i < messages.length; i++) {
       const { text, user } = messages[i];
       const message = {
@@ -188,7 +188,7 @@ class FirebaseSvc {
     var json = [];
     refs.orderByChild("name").on("child_added", function (snapshot) {
       json.push({
-        id: snapshot.key,
+        id: snapshot.val().id,
         name: snapshot.val().name,
         password: snapshot.val().password,
       });

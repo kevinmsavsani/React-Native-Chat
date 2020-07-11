@@ -4,10 +4,24 @@ import PropTypes from "prop-types";
 import firebase from "firebase";
 
 import firebaseSvc from "../../FirebaseSvc";
-
+const config = {
+  apiKey: "AIzaSyAQOpO07gnePdS6qMxm6479nT9fra5T_3s",
+  authDomain: "rnfirebase-cc811.firebaseapp.com",
+  databaseURL: "https://rnfirebase-cc811.firebaseio.com",
+  projectId: "rnfirebase-cc811",
+  storageBucket: "rnfirebase-cc811.appspot.com",
+  messagingSenderId: "29318257515",
+  appId: "1:29318257515:web:b4b2571a58c63826180a2e",
+  measurementId: "G-DT5F4WNPMP",
+};
 class RoomChat extends React.Component {
   constructor(props) {
     super(props);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(config);
+    } else {
+      console.log("firebase apps already running...");
+    }
   }
   static navigationOptions = ({ navigation }) => ({
     title: (navigation.state.params || {}).name || "Room Chat",
@@ -15,7 +29,7 @@ class RoomChat extends React.Component {
 
   state = {
     messages: [],
-    id: this.props.navigation.state.params.id
+    id: this.props.navigation.state.params.id,
   };
 
   get user() {
@@ -54,7 +68,10 @@ class RoomChat extends React.Component {
   };
 
   refroomOn = (callback) => {
-    firebase.database().ref("rooms/"+this.state.id+"/Messages")
+    console.log("rooms/" + this.state.id.toString() + "/Messages");
+    firebase
+      .database()
+      .ref("rooms/15/Messages")
       .limitToLast(50)
       .on("child_added", (snapshot) => callback(this.parse(snapshot)));
   };
@@ -71,7 +88,7 @@ class RoomChat extends React.Component {
 RoomChat.propTypes = {
   name: PropTypes.string,
   email: PropTypes.string,
-  id: PropTypes.string
+  id: PropTypes.string,
 };
 
 export default RoomChat;
