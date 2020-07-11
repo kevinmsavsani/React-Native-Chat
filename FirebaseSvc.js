@@ -100,6 +100,10 @@ class FirebaseSvc {
     return firebase.database().ref("Messages");
   }
 
+  get refs() {
+    return firebase.database().ref("rooms");
+  }
+
   parse = (snapshot) => {
     const { timestamp: numberStamp, text, user } = snapshot.val();
     const { key: id } = snapshot;
@@ -144,30 +148,20 @@ class FirebaseSvc {
   }
 
   createRoom = (room) => {
-    firebase
-      .database()
-      .ref("rooms/" + room.name)
-      .set({
-        name: room.name,
-        password: room.password,
-      });
+    firebase.database().ref("rooms").push({
+      name: room.name,
+      password: room.password,
+    });
   };
 
   roomList() {
     var refs = firebase.database().ref("rooms");
-    var json =[];
-    refs.on(
-      "value",
-      function (snapshot) {
-        snapshot.forEach(function(dinoSnapshot) {
-          let myJson = {"name" : dinoSnapshot.key};
-          json.push(myJson);
-        });
-      },
-      function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-      }
-    );
+    var i = 0;
+    var json = [];
+    refs.orderByChild("name").on("child_added", function (snapshot) {
+      json.push({id: i, name: snapshot.val().name,password: snapshot.val().password});
+      i++;
+    });
     return json;
   }
 }

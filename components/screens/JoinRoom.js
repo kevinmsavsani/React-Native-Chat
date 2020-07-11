@@ -1,122 +1,76 @@
-//This is an example code to Add Search Bar Filter on Listview//
-import React, { Component } from "react";
-//import react in our code.
 import firebaseSvc from "../../FirebaseSvc";
 
-import {
-  Text,
-  StyleSheet,
-  View,
-  FlatList,
-  TextInput,
-  ActivityIndicator,
-  Alert,
-} from "react-native";
-//import all the components we are going to use.
+/*This is an Example of Searchable Dropdown*/
+import React, { Component } from 'react';
+//import react in our project
+import { View, Text } from 'react-native';
+//import basic react native components
+import SearchableDropdown from 'react-native-searchable-dropdown';
+//import SearchableDropdown component
 
-export default class JoinRoom extends Component {
-  constructor(props) {
-    super(props);
-    //setting default state
-    this.state = { isLoading: true, text: "" };
-    this.arrayholder = [];
-  }
+//Item array for the dropdown
+var items = [
+  //name key is must.It is to show the text in front
+];
 
-  componentDidMount() {
-    var json = firebaseSvc.roomList();
-    console.log(json);
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState(
-          {
-            isLoading: false,
-            dataSource: json,
-          },
-          function () {
-            this.arrayholder = json;
-          }
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+class JoinRoom extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      serverData: firebaseSvc.roomList(),
+      //Data Source for the SearchableDropdown
+    };
   }
-  SearchFilterFunction(text) {
-    //passing the inserted text in textinput
-    const newData = this.arrayholder.filter(function (item) {
-      //applying filter for the inserted text in search bar
-      const itemData = item.name ? item.name.toUpperCase() : "".toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    });
-    this.setState({
-      //setting the filtered newData on datasource
-      //After setting the data it will automatically re-render the view
-      dataSource: newData,
-      text: text,
-    });
-  }
-  ListViewItemSeparator = () => {
-    //Item sparator view
-    return (
-      <View
-        style={{
-          height: 0.3,
-          width: "90%",
-          backgroundColor: "#080808",
-        }}
-      />
-    );
-  };
+  
   render() {
-    if (this.state.isLoading) {
-      //Loading View while data is loading
-      return (
-        <View style={{ flex: 1, paddingTop: 20 }}>
-          <ActivityIndicator />
-        </View>
-      );
-    }
     return (
-      //ListView to show with textinput used as search bar
-      <View style={styles.viewStyle}>
-        <TextInput
-          style={styles.textInputStyle}
-          onChangeText={(text) => this.SearchFilterFunction(text)}
-          value={this.state.text}
+      <View style={{ flex: 1, marginTop: 30 }}>
+        <SearchableDropdown
+          onTextChange={text => console.log(text)}
+          //On text change listner on the searchable input
+          onItemSelect={item => alert(JSON.stringify(item))}
+          //onItemSelect called after the selection from the dropdown
+          containerStyle={{ padding: 5 }}
+          //suggestion container style
+          textInputStyle={{
+            //inserted text style
+            padding: 12,
+            borderWidth: 1,
+            borderColor: '#ccc',
+            backgroundColor: '#FAF7F6',
+          }}
+          itemStyle={{
+            //single dropdown item style
+            padding: 10,
+            marginTop: 2,
+            backgroundColor: '#FAF9F8',
+            borderColor: '#bbb',
+            borderWidth: 1,
+          }}
+          itemTextStyle={{
+            //text style of a single dropdown item
+            color: '#222',
+          }}
+          itemsContainerStyle={{
+            //items container style you can pass maxHeight
+            //to restrict the items dropdown hieght
+            maxHeight: '50%',
+          }}
+          items={this.state.serverData}
+          //mapping of item array
+          defaultIndex={2}
+          //default selected item index
+          placeholder="placeholder"
+          //place holder for the search input
+          resetValue={false}
+          //reset textInput Value with true and false state
           underlineColorAndroid="transparent"
-          placeholder="Search Here"
-        />
-        <FlatList
-          data={this.state.dataSource}
-          ItemSeparatorComponent={this.ListViewItemSeparator}
-          renderItem={({ item }) => (
-            <Text style={styles.textStyle}>{item.name}</Text>
-          )}
-          enableEmptySections={true}
-          style={{ marginTop: 10 }}
-          keyExtractor={(item, index) => index.toString()}
+          //To remove the underline from the android input
         />
       </View>
     );
   }
 }
-const styles = StyleSheet.create({
-  viewStyle: {
-    justifyContent: "center",
-    flex: 1,
-    marginTop: 40,
-    padding: 16,
-  },
-  textStyle: {
-    padding: 10,
-  },
-  textInputStyle: {
-    height: 40,
-    borderWidth: 1,
-    paddingLeft: 10,
-    borderColor: "#009688",
-    backgroundColor: "#FFFFFF",
-  },
-});
+
+export default JoinRoom;
