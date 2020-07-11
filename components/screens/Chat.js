@@ -1,20 +1,15 @@
-import React from 'react';
-import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
+import React from "react";
+import { GiftedChat } from "react-native-gifted-chat"; // 0.3.0
+import PropTypes from "prop-types";
 
-import firebaseSvc from '../../FirebaseSvc';
+import firebaseSvc from "../../FirebaseSvc";
 
-type Props = {
-  name?: string,
-  email?: string,
-};
-
-class Chat extends React.Component<Props> {
-
+class Chat extends React.Component {
   constructor(props) {
     super(props);
   }
   static navigationOptions = ({ navigation }) => ({
-    title: (navigation.state.params || {}).name || 'Group Chat',
+    title: (navigation.state.params || {}).name || "Group Chat",
   });
 
   state = {
@@ -41,8 +36,8 @@ class Chat extends React.Component<Props> {
   }
 
   componentDidMount() {
-    firebaseSvc.refOn(message =>
-      this.setState(previousState => ({
+    firebaseSvc.refOn((message) =>
+      this.setState((previousState) => ({
         messages: GiftedChat.append(previousState.messages, message),
       }))
     );
@@ -51,5 +46,10 @@ class Chat extends React.Component<Props> {
     firebaseSvc.refOff();
   }
 }
+
+Chat.propTypes = {
+  name: PropTypes.string,
+  email: PropTypes.string,
+};
 
 export default Chat;

@@ -3,13 +3,10 @@ import { View, StyleSheet } from "react-native";
 import { Title } from "react-native-paper";
 import FormButton from "../component/FormButton";
 import firebaseSvc from "../../FirebaseSvc";
+import PropTypes from "prop-types";
 
-type Props = {
-  name?: string,
-  email?: string,
-};
 
-class RoomOptions extends React.Component<Props> {
+class RoomOptions extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -83,6 +80,11 @@ class RoomOptions extends React.Component<Props> {
     );
   }
 }
+
+RoomOptions.propTypes = {
+  name: PropTypes.string,
+  email: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   container: {

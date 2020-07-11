@@ -9,18 +9,14 @@ import SearchableDropdown from "react-native-searchable-dropdown";
 //import SearchableDropdown component
 import FormInput from "../component/FormInput";
 import FormButton from "../component/FormButton";
+import PropTypes from "prop-types";
 
 //Item array for the dropdown
 var items = [
   //name key is must.It is to show the text in front
 ];
 
-type Props = {
-  name?: string,
-  email?: string,
-};
-
-class JoinRoom extends React.Component<Props> {
+class JoinRoom extends React.Component {
   state = {
     name: "",
     password: "",
@@ -118,6 +114,11 @@ class JoinRoom extends React.Component<Props> {
     );
   }
 }
+
+JoinRoom.propTypes = {
+  name: PropTypes.string,
+  email: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   container: {

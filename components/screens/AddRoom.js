@@ -4,13 +4,10 @@ import { Title, IconButton } from "react-native-paper";
 import FormInput from "../component/FormInput";
 import FormButton from "../component/FormButton";
 import firebaseSvc from "../../FirebaseSvc";
+import PropTypes from "prop-types";
 
-type Props = {
-    name?: string,
-    email?: string,
-  };
 
-class AddRoom extends React.Component<Props> {
+class AddRoom extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -71,6 +68,11 @@ class AddRoom extends React.Component<Props> {
     );
   }
 }
+
+AddRoom.propTypes = {
+  name: PropTypes.string,
+  email: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   container: {
