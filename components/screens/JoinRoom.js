@@ -3,7 +3,7 @@ import firebaseSvc from "../../FirebaseSvc";
 /*This is an Example of Searchable Dropdown*/
 import React, { Component } from "react";
 //import react in our project
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TextInput } from "react-native";
 //import basic react native components
 import SearchableDropdown from "react-native-searchable-dropdown";
 //import SearchableDropdown component
@@ -20,6 +20,9 @@ class JoinRoom extends React.Component {
   state = {
     name: "",
     password: "",
+  };
+  static navigationOptions = {
+    title: "Join Room",
   };
 
   constructor() {
@@ -52,7 +55,6 @@ class JoinRoom extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, marginTop: 30 }}>
-        <Text style={{ padding: 12 }}>Room Name </Text>
         <SearchableDropdown
           onTextChange={(text) => console.log(text)}
           //On text change listner on the searchable input
@@ -91,18 +93,20 @@ class JoinRoom extends React.Component {
           //mapping of item array
           defaultIndex={0}
           //default selected item index
-          placeholder="placeholder"
+          placeholder="Enter Room Name"
           //place holder for the search input
           resetValue={false}
           //reset textInput Value with true and false state
           underlineColorAndroid="transparent"
           //To remove the underline from the android input
         />
-        <FormInput
-          labelName="Password"
-          secureTextEntry={true}
+         <TextInput
+          placeholder="Password"
           onChangeText={this.onChangeTextPassword}
+          underlineColorAndroid="transparent"
+          style={styles.textInputStyle}
           value={this.state.password}
+          secureTextEntry={true}
         />
         <FormButton
           title="Join Room"
@@ -140,6 +144,14 @@ const styles = StyleSheet.create({
   navButton: {
     marginTop: 10,
   },
+  textInputStyle: {
+    //inserted text style
+    padding: 12,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    backgroundColor: "#FAF7F6",
+    marginHorizontal: 5
+  }
 });
 
 export default JoinRoom;
