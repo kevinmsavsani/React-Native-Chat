@@ -2,14 +2,14 @@ import firebase from "firebase";
 import uuid from "uuid";
 
 const config = {
-  apiKey: "AIzaSyAQOpO07gnePdS6qMxm6479nT9fra5T_3s",
-  authDomain: "rnfirebase-cc811.firebaseapp.com",
-  databaseURL: "https://rnfirebase-cc811.firebaseio.com",
-  projectId: "rnfirebase-cc811",
-  storageBucket: "rnfirebase-cc811.appspot.com",
-  messagingSenderId: "29318257515",
-  appId: "1:29318257515:web:b4b2571a58c63826180a2e",
-  measurementId: "G-DT5F4WNPMP",
+  apiKey: "AIzaSyDb9qiZE7li0dnuuj_WKuK5L82IZl3Xmxw",
+  authDomain: "fir-6fe6a.firebaseapp.com",
+  databaseURL: "https://fir-6fe6a.firebaseio.com",
+  projectId: "fir-6fe6a",
+  storageBucket: "fir-6fe6a.appspot.com",
+  messagingSenderId: "668784332849",
+  appId: "1:668784332849:web:5914215bbb8855f2ee0510",
+  measurementId: "G-CTGM67NC9G"
 };
 
 class FirebaseSvc {
@@ -122,14 +122,6 @@ class FirebaseSvc {
       .on("child_added", (snapshot) => callback(this.parse(snapshot)));
   };
 
-  refroomOn = (callback) => {
-    firebase
-      .database()
-      .ref("rooms/" + id + "/Messages")
-      .limitToLast(50)
-      .on("child_added", (snapshot) => callback(this.parse(snapshot)));
-  };
-
   get timestamp() {
     return firebase.database.ServerValue.TIMESTAMP;
   }
@@ -147,16 +139,17 @@ class FirebaseSvc {
     }
   };
 
-  sendRoom = (messages) => {
-    var refroom = firebase.database().ref("rooms/16/Messages");
-    for (let i = 0; i < messages.length; i++) {
-      const { text, user } = messages[i];
-      const message = {
+  sendRoom = (messagesR) => {
+    console.log(id);
+    var refroom = firebase.database().ref("rooms/0/Messages");
+    for (let i = 0; i < messagesR.length; i++) {
+      const { text, user } = messagesR[i];
+      const messageR = {
         text,
         user,
         createdAt: this.timestamp,
       };
-      refroom.push(message);
+      refroom.push(messageR);
     }
   };
 
@@ -164,15 +157,14 @@ class FirebaseSvc {
     this.ref.off();
   }
 
-  refroomOff() {
-    this.refroom.off();
-  }
-
   createRoom = (room) => {
     var current = 0;
-    firebase.database().ref("RoomNumber").on("value", function(snapshot) {
-      current = snapshot.val();
-    });
+    firebase
+      .database()
+      .ref("RoomNumber")
+      .on("value", function (snapshot) {
+        current = snapshot.val();
+      });
     var usersRef = firebase.database().ref("rooms");
     usersRef.child(current).set({
       id: current,
@@ -212,9 +204,9 @@ class FirebaseSvc {
       }
     );
     // firebaseSvc.getRoomNumber(function (err, result) {
-      //   console.log(result);
-      // });
-      // firebaseSvc.setRoomNumber();
+    //   console.log(result);
+    // });
+    // firebaseSvc.setRoomNumber();
   }
 
   setRoomNumber() {

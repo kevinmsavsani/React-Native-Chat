@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import firebase from "firebase";
 
 import firebaseSvc from "../../FirebaseSvc";
+
 const config = {
   apiKey: "AIzaSyAQOpO07gnePdS6qMxm6479nT9fra5T_3s",
   authDomain: "rnfirebase-cc811.firebaseapp.com",
@@ -14,6 +15,7 @@ const config = {
   appId: "1:29318257515:web:b4b2571a58c63826180a2e",
   measurementId: "G-DT5F4WNPMP",
 };
+
 class RoomChat extends React.Component {
   constructor(props) {
     super(props);
@@ -41,11 +43,27 @@ class RoomChat extends React.Component {
     };
   }
 
+  get timestamp() {
+    return firebase.database.ServerValue.TIMESTAMP;
+  }
+
+  send = (messagesR) => {
+    for (let i = 0; i < messagesR.length; i++) {
+      const { text, user } = messagesR[i];
+      const messageR = { text, user, createdAt: this.timestamp };
+      firebase
+        .database()
+        .ref("rooms/" + this.state.id.toString() + "/Messages")
+        .push(messageR);
+    }
+  };
+
   render() {
     return (
       <GiftedChat
         messages={this.state.messages}
-        onSend={firebaseSvc.sendRoom}
+        id={this.state.id}
+        onSend={this.send}
         user={this.user}
       />
     );
@@ -66,19 +84,6 @@ class RoomChat extends React.Component {
     };
     return message;
   };
-
-  // sendRoom = () => {
-  //   var refrooms = firebase.database().ref("rooms/15/Messages");
-  //   for (let i = 0; i < this.state.messages.length; i++) {
-  //     const { text, user } = this.state.messages[i];
-  //     const message = {
-  //       text,
-  //       user,
-  //       createdAt: this.timestamp,
-  //     };
-  //     refrooms.push(message);
-  //   }
-  // };
 
   refroomOn = (callback) => {
     console.log("rooms/" + this.state.id.toString() + "/Messages");
