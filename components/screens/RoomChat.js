@@ -67,11 +67,24 @@ class RoomChat extends React.Component {
     return message;
   };
 
+  // sendRoom = () => {
+  //   var refrooms = firebase.database().ref("rooms/15/Messages");
+  //   for (let i = 0; i < this.state.messages.length; i++) {
+  //     const { text, user } = this.state.messages[i];
+  //     const message = {
+  //       text,
+  //       user,
+  //       createdAt: this.timestamp,
+  //     };
+  //     refrooms.push(message);
+  //   }
+  // };
+
   refroomOn = (callback) => {
     console.log("rooms/" + this.state.id.toString() + "/Messages");
     firebase
       .database()
-      .ref("rooms/15/Messages")
+      .ref("rooms/" + this.state.id.toString() + "/Messages")
       .limitToLast(50)
       .on("child_added", (snapshot) => callback(this.parse(snapshot)));
   };

@@ -38,7 +38,7 @@ class JoinRoom extends React.Component {
     var n = this.state.name.password.localeCompare(this.state.password);
     console.log(n);
     if (n == 0) {
-      console.log("join successful, navigate to Room Chat." + this.state.name.id);
+      console.log("join successful, navigate to Room Chat " + this.state.name.id);
       this.props.navigation.navigate("RoomChat", {
         name: this.props.navigation.state.params.name,
         email: this.props.navigation.state.params.email,
