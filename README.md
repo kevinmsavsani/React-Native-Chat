@@ -26,3 +26,5 @@ To get latest dependencies:
 
 ## Reference:
 https://medium.com/@phylypo/react-native-simple-chat-with-firebase-and-giftedchat-f7dbdff2883a
+
+https://blog.expo.io/how-to-build-a-chat-app-with-react-native-3ef8604ebb3c
